@@ -76,6 +76,39 @@
         }
       }
     },
+    "Probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "initialDelaySeconds": {
+          "type": "integer",
+          "default": 60,
+          "minimum": 10
+        },
+        "periodSeconds": {
+          "type": "integer",
+          "default": 10
+        },
+        "failureThreshold": {
+          "type": "integer",
+          "default": 3
+        },
+        "successThreshold": {
+          "type": "integer",
+          "default": 1
+        },
+        "timeoutSeconds": {
+          "type": "integer",
+          "default": 1
+        }
+      }
+    },
     "Resources": {
       "type": "object",
       "additionalProperties": false,
