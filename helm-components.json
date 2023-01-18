@@ -1,5 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm-components.json",
+  "title": "Json Schema for Helm Components",
   "definitions": {
     "Duration": {
       "type": "string",
