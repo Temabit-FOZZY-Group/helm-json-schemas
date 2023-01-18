@@ -109,6 +109,17 @@
         }
       }
     },
+    "Probes": {
+      "type": "object",
+      "properties": {
+        "livenessProbe": {
+          "$ref": "#/definitions/Probe"
+        },
+        "readinessProbe": {
+          "$ref": "#/definitions/Probe"
+        }
+      }
+    },
     "Resources": {
       "type": "object",
       "additionalProperties": false,
@@ -757,6 +768,31 @@
       "additionalProperties": false,
       "required": [
         "create"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "create": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "oneOf": [
+              {
+                "required": [
+                  "maxUnavailable"
+                ]
+              },
+              {
+                "required": [
+                  "minAvailable"
+                ]
+              }
+            ]
+          }
+        }
       ],
       "properties": {
         "create": {
