@@ -1,0 +1,986 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Duration": {
+      "type": "string",
+      "pattern": "^\\d+[hms]?$"
+    },
+    "Labels": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "Annotations": {
+      "type": "object",
+      "description": "kubernetes metadata annotations",
+      "additionalProperties": true,
+      "properties": {
+        "argocd.argoproj.io/sync-options": {
+          "type": "string",
+          "enum": [
+            "Force=true",
+            "Replace=true",
+            "Prune=true"
+          ]
+        },
+        "reloader.stakater.com/auto": {
+          "type": "string",
+          "enum": [
+            "true",
+            "false"
+          ],
+          "default": "true"
+        }
+      }
+    },
+    "Image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository"
+      ],
+      "properties": {
+        "registry": {
+          "type": "string",
+          "default": "docker.io",
+          "examples": [
+            "docker.io",
+            "registry.fozzy.lan"
+          ]
+        },
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string",
+          "examples": [
+            "latest"
+          ]
+        },
+        "pullPolicy": {
+          "type": "string",
+          "default": "IfNotPresent",
+          "description": "https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ]
+        },
+        "pullSecrets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requests",
+        "limits"
+      ],
+      "properties": {
+        "requests": {
+          "$ref": "#/definitions/ResourcesItem"
+        },
+        "limits": {
+          "$ref": "#/definitions/ResourcesItem"
+        }
+      }
+    },
+    "ResourcesItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cpu",
+        "memory",
+        "ephemeral-storage"
+      ],
+      "properties": {
+        "cpu": {
+          "$ref": "#/definitions/ResourcesItemCPU"
+        },
+        "memory": {
+          "$ref": "#/definitions/ResourcesItemMemory"
+        },
+        "ephemeral-storage": {
+          "$ref": "#/definitions/ResourcesItemMemory"
+        }
+      }
+    },
+    "ResourcesItemCPU": {
+      "anyOf": [
+        {
+          "type": "number",
+          "examples": [
+            0.1,
+            1,
+            2,
+            2.5
+          ]
+        },
+        {
+          "type": "string",
+          "examples": [
+            "100m"
+          ]
+        }
+      ]
+    },
+    "ResourcesItemMemory": {
+      "type": "string",
+      "additionalProperties": true,
+      "pattern": "\\d+(Mi|Ki|Gi)$",
+      "examples": [
+        "100Mi",
+        "4Gi"
+      ],
+      "default": "64Mi"
+    },
+    "Ingress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "hostname",
+              "path",
+              "pathType"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "labels": {
+          "$ref": "#/definitions/Labels"
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/Annotations"
+            }
+          ],
+          "properties": {
+            "nginx.ingress.kubernetes.io/app-root": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/affinity": {
+              "type": "string",
+              "default": "cookie",
+              "enum": [
+                "cookie"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/affinity-mode": {
+              "type": "string",
+              "enum": [
+                "balanced",
+                "persistent"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/affinity-canary-behavior": {
+              "type": "string",
+              "enum": [
+                "sticky",
+                "legacy"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/auth-realm": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-secret": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-secret-type": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-type": {
+              "type": "string",
+              "enum": [
+                "basic",
+                "digest"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-secret": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-verify-depth": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-verify-client": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-error-page": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/auth-tls-match-cn": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-url": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-cache-key": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-cache-duration": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-keepalive": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/auth-keepalive-requests": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/auth-keepalive-timeout": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/auth-proxy-set-headers": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/auth-snippet": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/enable-global-auth": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/backend-protocol": {
+              "type": "string",
+              "default": "HTTP",
+              "enum": [
+                "HTTP",
+                "HTTPS",
+                "GRPC",
+                "GRPCS",
+                "AJP",
+                "FCGI"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/canary": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/canary-by-header": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/canary-by-header-value": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/canary-by-header-pattern": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/canary-by-cookie": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/canary-weight": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/canary-weight-total": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/client-body-buffer-size": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/configuration-snippet": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/custom-http-errors": {
+              "type": "string",
+              "description": "https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#custom-http-errors"
+            },
+            "nginx.ingress.kubernetes.io/default-backend": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/enable-cors": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/cors-allow-origin": {
+              "type": "string",
+              "default": "*"
+            },
+            "nginx.ingress.kubernetes.io/cors-allow-methods": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/cors-allow-headers": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/cors-expose-headers": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/cors-allow-credentials": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/cors-max-age": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/force-ssl-redirect": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/from-to-www-redirect": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/http2-push-preload": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/limit-connections": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/limit-rps": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/global-rate-limit": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/global-rate-limit-window": {
+              "type": "string",
+              "pattern": "^\\d+[mhs]?$"
+            },
+            "nginx.ingress.kubernetes.io/global-rate-limit-key": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/global-rate-limit-ignored-cidrs": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/permanent-redirect": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/permanent-redirect-code": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/temporal-redirect": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/preserve-trailing-slash": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/proxy-body-size": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-cookie-domain": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-cookie-path": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-connect-timeout": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-send-timeout": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-read-timeout": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-next-upstream": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-next-upstream-timeout": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-next-upstream-tries": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-request-buffering": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-redirect-from": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-redirect-to": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-http-version": {
+              "type": "string",
+              "enum": [
+                "1.0",
+                "1.1"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-secret": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-ciphers": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-name": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-protocols": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-verify": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-verify-depth": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-ssl-server-name": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/enable-rewrite-log": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/rewrite-target": {
+              "type": "string",
+              "pattern": "^https?://"
+            },
+            "nginx.ingress.kubernetes.io/satisfy": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/server-alias": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/server-snippet": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/service-upstream": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-name": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-path": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-domain": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-change-on-failure": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-samesite": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/session-cookie-conditional-samesite-none": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/ssl-redirect": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/ssl-passthrough": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/stream-snippet": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/upstream-hash-by": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/x-forwarded-prefix": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/load-balance": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/upstream-vhost": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/whitelist-source-range": {
+              "type": "string",
+              "description": "https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#whitelist-source-range"
+            },
+            "nginx.ingress.kubernetes.io/proxy-buffering": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-buffers-number": {
+              "type": "string",
+              "pattern": "[1-9]\\d+"
+            },
+            "nginx.ingress.kubernetes.io/proxy-buffer-size": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/proxy-max-temp-file-size": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/ssl-ciphers": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/ssl-prefer-server-ciphers": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/connection-proxy-header": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/enable-access-log": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/enable-opentracing": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/opentracing-trust-incoming-span": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/enable-influxdb": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/influxdb-measurement": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/influxdb-port": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/influxdb-host": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/influxdb-server-name": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/use-regex": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/enable-modsecurity": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/enable-owasp-core-rules": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "nginx.ingress.kubernetes.io/modsecurity-transaction-id": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/modsecurity-snippet": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/mirror-request-body": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/mirror-target": {
+              "type": "string"
+            },
+            "nginx.ingress.kubernetes.io/mirror-host": {
+              "type": "string"
+            }
+          }
+        },
+        "ingressClassName": {
+          "description": "K8s Ingress Class Names",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "nginx",
+          "examples": [
+            "nginx",
+            "traefik",
+            "haproxy"
+          ]
+        },
+        "hostname": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "default": "/"
+        },
+        "pathType": {
+          "type": "string",
+          "enum": [
+            "Prefix",
+            "ImplementationSpecific",
+            "Exact"
+          ]
+        },
+        "tlsSecretName": {
+          "type": "string"
+        }
+      }
+    },
+    "PodDisruptionBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "create"
+      ],
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "default": false
+        },
+        "maxUnavailable": {
+          "description": "An eviction is allowed if at most \"maxUnavailable\" pods selected by \"selector\" are unavailable after the eviction, i.e. even in absence of the evicted pod. For example, one can prevent all voluntary evictions by specifying 0. This is a mutually exclusive setting with \"minAvailable\".",
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+%$"
+            }
+          ]
+        },
+        "minAvailable": {
+          "description": "An eviction is allowed if at least \"minAvailable\" pods selected by \"selector\" will still be available after the eviction, i.e. even in the absence of the evicted pod. So for example you can prevent all voluntary evictions by specifying \"100%\".",
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "pattern": "^\\d+%$"
+            }
+          ]
+        }
+      }
+    },
+    "ServiceMonitorRelabelings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "type": "string",
+            "default": "replace",
+            "enum": [
+              "keep",
+              "drop",
+              "labelkeep",
+              "labeldrop",
+              "replace",
+              "hashmod",
+              "labelmap"
+            ]
+          },
+          "regex": {
+            "type": "string"
+          },
+          "separator": {
+            "type": "string"
+          },
+          "source_labels": {
+            "type": "array",
+            "uniqueItems": false,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ServiceMonitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "namespace": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "default": "namespace"
+            }
+          ],
+          "default": "namespace"
+        },
+        "interval": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "default": "1m"
+            }
+          ],
+          "default": "1m"
+        },
+        "scrapeTimeout": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "default": "10s"
+            }
+          ],
+          "default": "10s"
+        },
+        "honorLabels": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "default": null
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "relabelings": {
+          "$ref": "#/definitions/ServiceMonitorRelabelings",
+          "description": "These relabeling steps are applied before the scrape occurs and only have access to labels added by Prometheus’ Service Discovery. They allow us to filter the targets returned by our SD mechanism, as well as manipulate the labels it sets. More info: https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/"
+        },
+        "metricRelabelings": {
+          "$ref": "#/definitions/ServiceMonitorRelabelings",
+          "description": "Once the targets have been defined, the metric_relabel_configs steps are applied after the scrape and allow us to select which series we would like to ingest into Prometheus’ storage. More info: https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/"
+        },
+        "dropMetricsLabels": {
+          "type": "array",
+          "description": "configure name of the labels that must be removed from the metrics",
+          "uniqueItems": true,
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "endpoint",
+                  "service",
+                  "pod",
+                  "container",
+                  "namespace",
+                  "instance"
+                ]
+              },
+              {
+                "type": "string",
+                "pattern": "[\\w_\\-]+"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "DynamicProperty": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "secret": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "the name of the K8s Secret"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "the key name in the K8s Secret"
+                }
+              }
+            },
+            "config": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "the name of the ConfigMap"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "the key name in the ConfigMap"
+                }
+              }
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "config": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Global": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "imagePullSecrets": {
+          "type": "array",
+          "uniqueItems": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "revisionHistoryLimit": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 10
+        }
+      }
+    }
+  }
+}

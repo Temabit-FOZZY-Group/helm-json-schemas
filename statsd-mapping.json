@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "StatsdMappings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mappings"
+      ],
+      "properties": {
+        "defaults": {
+          "$ref": "#/definitions/Defaults"
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Mapping"
+          }
+        }
+      },
+      "title": "StatsdMappings"
+    },
+    "Defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observer_type": {
+          "$ref": "#/definitions/ObserverType"
+        },
+        "histogram_options": {
+          "$ref": "#/definitions/HistogramOptions"
+        },
+        "summary_options": {
+          "$ref": "#/definitions/SummaryOptions"
+        },
+        "match_type": {
+          "$ref": "#/definitions/MatchType"
+        },
+        "glob_disable_ordering": {
+          "$ref": "#/definitions/GlobDisableOrdering"
+        },
+        "ttl": {
+          "$ref": "#/definitions/TTL"
+        }
+      }
+    },
+    "Mapping": {
+      "type": "object",
+      "required": [
+        "match",
+        "name"
+      ],
+      "properties": {
+        "match": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "match_type": {
+          "$ref": "#/definitions/MatchType"
+        },
+        "match_metric_type": {
+          "type": "string",
+          "enum": [
+            "gauge",
+            "counter",
+            "observer"
+          ]
+        },
+        "observer_type": {
+          "$ref": "#/definitions/ObserverType"
+        },
+        "summary_options": {
+          "$ref": "#/definitions/SummaryOptions"
+        },
+        "histogram_options": {
+          "$ref": "#/definitions/HistogramOptions"
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "drop"
+          ]
+        },
+        "help": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "component": {
+              "type": "string",
+              "enum": [
+                "driver",
+                "executor"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "queue": {
+              "type": "string"
+            },
+            "quantile": {
+              "type": "string",
+              "enum": [
+                "0.5",
+                "0.75",
+                "0.95",
+                "0.98",
+                "0.99",
+                "0.999"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SummaryOptions": {
+      "type": "object",
+      "properties": {
+        "quantiles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "quantile": {
+                "type": "number"
+              },
+              "error": {
+                "type": "number"
+              }
+            }
+          },
+          "default": [
+            {
+              "quantile": 0.99,
+              "error": 0.001
+            },
+            {
+              "quantile": 0.95,
+              "error": 0.01
+            },
+            {
+              "quantile": 0.9,
+              "error": 0.05
+            },
+            {
+              "quantile": 0.5,
+              "error": 0.005
+            }
+          ]
+        },
+        "max_age": {
+          "type": "string",
+          "default": "5m",
+          "examples": [
+            "30s",
+            "5m"
+          ]
+        },
+        "age_buckets": {
+          "type": "integer",
+          "default": 2,
+          "examples": [
+            3
+          ]
+        },
+        "buf_cap": {
+          "type": "integer",
+          "examples": [
+            1000
+          ]
+        }
+      }
+    },
+    "ObserverType": {
+      "type": "string",
+      "enum": [
+        "summary",
+        "histogram"
+      ]
+    },
+    "HistogramOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "buckets"
+      ],
+      "properties": {
+        "buckets": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "default": [
+            0.005,
+            0.01,
+            0.025,
+            0.05,
+            0.1,
+            0.25,
+            0.5,
+            1,
+            2.5
+          ]
+        }
+      }
+    },
+    "MatchType": {
+      "type": "string",
+      "enum": [
+        "regex",
+        "glob"
+      ]
+    },
+    "GlobDisableOrdering": {
+      "type": "boolean"
+    },
+    "TTL": {
+      "type": "string",
+      "pattern": "^[1-9]\\d*[msh]$",
+      "examples": [
+        "30m"
+      ]
+    }
+  }
+}
