@@ -81,8 +81,10 @@
         },
         "action": {
           "type": "string",
+          "default": "map",
           "enum": [
-            "drop"
+            "drop",
+            "map"
           ]
         },
         "help": {
