@@ -834,6 +834,42 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
+        "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "action": {
+                  "enum": [
+                    "labeldrop",
+                    "labelkeep"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "regex"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action": {
+                  "enum": [
+                    "replace"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "targetLabel"
+              ]
+            }
+          }
+        ],
         "properties": {
           "action": {
             "type": "string",
@@ -849,17 +885,29 @@
             ]
           },
           "regex": {
-            "type": "string"
+            "type": "string",
+            "default": "(.*)"
           },
           "separator": {
-            "type": "string"
+            "type": "string",
+            "default": ";"
           },
-          "source_labels": {
+          "sourceLabels": {
             "type": "array",
             "uniqueItems": false,
             "items": {
               "type": "string"
             }
+          },
+          "targetLabel": {
+            "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/#target_label"
+          },
+          "modulus": {
+            "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/#modulus"
+          },
+          "replacement": {
+            "type": "string",
+            "default": "${1}"
           }
         }
       }
