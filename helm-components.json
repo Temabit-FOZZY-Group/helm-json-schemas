@@ -865,7 +865,7 @@
             },
             "then": {
               "required": [
-                "target_label"
+                "targetLabel"
               ]
             }
           }
@@ -892,14 +892,14 @@
             "type": "string",
             "default": ";"
           },
-          "source_labels": {
+          "sourceLabels": {
             "type": "array",
             "uniqueItems": false,
             "items": {
               "type": "string"
             }
           },
-          "target_label": {
+          "targetLabel": {
             "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/#target_label"
           },
           "modulus": {
