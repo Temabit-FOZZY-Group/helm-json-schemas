@@ -546,8 +546,7 @@
               ]
             },
             "nginx.ingress.kubernetes.io/rewrite-target": {
-              "type": "string",
-              "pattern": "^https?://"
+              "type": "string"
             },
             "nginx.ingress.kubernetes.io/satisfy": {
               "type": "string"
