@@ -80,13 +80,16 @@
     },
     "Probe": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "required": [
         "enabled"
       ],
       "properties": {
         "enabled": {
           "type": "boolean"
+        },
+        "httpPath": {
+          "type": "string"
         },
         "initialDelaySeconds": {
           "type": "integer",
@@ -114,6 +117,9 @@
     "Probes": {
       "type": "object",
       "properties": {
+        "startupProbe": {
+          "$ref": "#/definitions/Probe"
+        },
         "livenessProbe": {
           "$ref": "#/definitions/Probe"
         },
