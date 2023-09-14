@@ -45,8 +45,23 @@
           "type": "string",
           "default": "docker.io",
           "examples": [
-            "docker.io",
-            "registry.fozzy.lan"
+            "docker.io"
+          ],
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "enum": [
+                "docker.io",
+                "public.ecr.aws",
+                "registry.fozzy.lan",
+                "ghcr.io",
+                "gcr.io",
+                "registry.k8s.io",
+                "quay.io"
+              ]
+            }
           ]
         },
         "repository": {
