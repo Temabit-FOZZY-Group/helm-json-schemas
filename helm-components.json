@@ -201,7 +201,7 @@
     "ResourcesItemMemory": {
       "type": "string",
       "additionalProperties": true,
-      "pattern": "\\d+(Mi|Ki|Gi)$",
+      "pattern": "\\d+(Ki|Mi|Gi|Ti)$",
       "examples": [
         "100Mi",
         "4Gi"
@@ -294,7 +294,7 @@
             },
             "nginx.ingress.kubernetes.io/auth-tls-verify-depth": {
               "type": "string",
-              "pattern": "[1-9]\\d+"
+              "pattern": "^[1-9]\\d*$"
             },
             "nginx.ingress.kubernetes.io/auth-tls-verify-client": {
               "type": "string"
