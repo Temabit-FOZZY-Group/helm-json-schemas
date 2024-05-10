@@ -90,6 +90,10 @@
             "type": "string",
             "minLength": 1
           }
+        },
+        "sha256": {
+          "description": "docker image sha256 checksum",
+          "type": "string"
         }
       }
     },
