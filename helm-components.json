@@ -93,6 +93,8 @@
         },
         "sha256": {
           "description": "docker image sha256 checksum",
+          "minLength": 64,
+          "maxLength": 64,
           "type": "string"
         }
       }
