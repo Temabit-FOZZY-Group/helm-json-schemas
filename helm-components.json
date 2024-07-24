@@ -3,6 +3,15 @@
   "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm-components.json",
   "title": "Json Schema for Helm Components",
   "definitions": {
+    "TopologySpreadConstraints": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gitlab.wikimedia.org/repos/sre/kubernetes-json-schema/-/raw/72481e690d5893cc568ff9b13009467f7040dd94/v1.27.2/topologyspreadconstraint.json"
+      }
+    },
+    "Affinity": {
+      "$ref": "https://gitlab.wikimedia.org/repos/sre/kubernetes-json-schema/-/raw/72481e690d5893cc568ff9b13009467f7040dd94/v1.27.2/affinity.json"
+    },
     "Duration": {
       "type": "string",
       "pattern": "^\\d+[dhms]?$"
