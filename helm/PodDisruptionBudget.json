@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/PodDisruptionBudget.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "create"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "create": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "oneOf": [
+          {
+            "required": [
+              "maxUnavailable"
+            ]
+          },
+          {
+            "required": [
+              "minAvailable"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "create": {
+      "type": "boolean",
+      "default": false
+    },
+    "maxUnavailable": {
+      "description": "An eviction is allowed if at most \"maxUnavailable\" pods selected by \"selector\" are unavailable after the eviction, i.e. even in absence of the evicted pod. For example, one can prevent all voluntary evictions by specifying 0. This is a mutually exclusive setting with \"minAvailable\".",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "string",
+          "pattern": "^\\d+%$"
+        }
+      ]
+    },
+    "minAvailable": {
+      "description": "An eviction is allowed if at least \"minAvailable\" pods selected by \"selector\" will still be available after the eviction, i.e. even in the absence of the evicted pod. So for example you can prevent all voluntary evictions by specifying \"100%\".",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "string",
+          "pattern": "^\\d+%$"
+        }
+      ]
+    }
+  }
+}

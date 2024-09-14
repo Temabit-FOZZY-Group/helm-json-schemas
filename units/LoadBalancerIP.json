@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/LoadBalancerIP.json",
+  "type": "string",
+  "default": "10.10.179.117",
+  "anyOf": [
+    {
+      "type": "string"
+    },
+    {
+      "enum": [
+        "10.10.179.117",
+        "10.10.179.118",
+        "10.10.179.119",
+        "10.10.179.120",
+        "10.10.179.121",
+        "10.10.179.122",
+        "10.10.179.123",
+        "10.10.179.124",
+        "10.10.179.125"
+      ]
+    }
+  ]
+}

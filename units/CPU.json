@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/CPU.json",
+  "anyOf": [
+    {
+      "type": "number",
+      "examples": [
+        0.1,
+        1,
+        2,
+        2.5
+      ]
+    },
+    {
+      "type": "string",
+      "examples": [
+        "100m"
+      ]
+    }
+  ]
+}

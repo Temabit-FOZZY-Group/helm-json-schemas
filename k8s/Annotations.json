@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/Annotations.json",
+  "type": "object",
+  "description": "kubernetes metadata annotations",
+  "additionalProperties": true,
+  "properties": {
+    "metallb.universe.tf/loadBalancerIPs": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/LoadBalancerIP.json"
+    },
+    "argocd.argoproj.io/sync-options": {
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "enum": [
+            "Force=true",
+            "Replace=true",
+            "Prune=true"
+          ]
+        }
+      ]
+    },
+    "reloader.stakater.com/auto": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "default": "true"
+    }
+  }
+}

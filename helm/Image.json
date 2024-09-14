@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Image.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "repository"
+  ],
+  "properties": {
+    "registry": {
+      "type": "string",
+      "default": "docker.io",
+      "examples": [
+        "docker.io"
+      ],
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "enum": [
+            "docker.io",
+            "public.ecr.aws",
+            "registry.fozzy.lan",
+            "ghcr.io",
+            "gcr.io",
+            "registry.k8s.io",
+            "quay.io"
+          ]
+        }
+      ]
+    },
+    "repository": {
+      "type": "string"
+    },
+    "tag": {
+      "type": "string",
+      "examples": [
+        "latest"
+      ]
+    },
+    "pullPolicy": {
+      "type": "string",
+      "default": "IfNotPresent",
+      "description": "https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy",
+      "enum": [
+        "Always",
+        "IfNotPresent",
+        "Never"
+      ]
+    },
+    "pullSecrets": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sha256": {
+      "description": "docker image sha256 checksum",
+      "minLength": 64,
+      "maxLength": 64,
+      "type": "string"
+    }
+  }
+}

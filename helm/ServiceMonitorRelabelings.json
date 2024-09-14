@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ServiceMonitorRelabelings.json",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works",
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "action": {
+              "enum": [
+                "labeldrop",
+                "labelkeep"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "regex"
+          ]
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "action": {
+              "enum": [
+                "replace"
+              ]
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "targetLabel"
+          ]
+        }
+      }
+    ],
+    "properties": {
+      "action": {
+        "type": "string",
+        "default": "replace",
+        "enum": [
+          "keep",
+          "drop",
+          "labelkeep",
+          "labeldrop",
+          "replace",
+          "hashmod",
+          "labelmap"
+        ]
+      },
+      "regex": {
+        "type": "string",
+        "default": "(.*)"
+      },
+      "separator": {
+        "type": "string",
+        "default": ";"
+      },
+      "sourceLabels": {
+        "type": "array",
+        "uniqueItems": false,
+        "items": {
+          "type": "string"
+        }
+      },
+      "targetLabel": {
+        "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/#target_label"
+      },
+      "modulus": {
+        "description": "https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/#modulus"
+      },
+      "replacement": {
+        "type": "string",
+        "default": "${1}"
+      }
+    }
+  }
+}

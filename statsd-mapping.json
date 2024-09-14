@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/statsd-mapping.json",
   "title": "Json Schema for Prometheus Statsd Exporter Mapping",
+  "$ref": "#/definitions/StatsdMappings",
   "definitions": {
     "StatsdMappings": {
       "type": "object",
@@ -224,11 +225,7 @@
       "type": "boolean"
     },
     "TTL": {
-      "type": "string",
-      "pattern": "^[1-9]\\d*[msh]$",
-      "examples": [
-        "30m"
-      ]
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Duration.json"
     }
   }
 }

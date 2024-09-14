@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/ResourcesItem.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cpu",
+    "memory",
+    "ephemeral-storage"
+  ],
+  "properties": {
+    "cpu": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/CPU.json"
+    },
+    "memory": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Memory.json"
+    },
+    "ephemeral-storage": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Memory.json"
+    }
+  }
+}

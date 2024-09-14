@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Probe.json",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "enabled"
+  ],
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "httpPath": {
+      "type": "string"
+    },
+    "initialDelaySeconds": {
+      "type": "integer",
+      "default": 60,
+      "minimum": 10
+    },
+    "periodSeconds": {
+      "type": "integer",
+      "default": 10
+    },
+    "failureThreshold": {
+      "type": "integer",
+      "default": 3
+    },
+    "successThreshold": {
+      "type": "integer",
+      "default": 1
+    },
+    "timeoutSeconds": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}

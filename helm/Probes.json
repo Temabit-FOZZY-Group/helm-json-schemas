@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Probes.json",
+  "type": "object",
+  "properties": {
+    "startupProbe": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Probe.json"
+    },
+    "livenessProbe": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Probe.json"
+    },
+    "readinessProbe": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Probe.json"
+    }
+  }
+}

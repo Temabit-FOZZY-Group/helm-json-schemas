@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ServiceMonitor.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "namespace": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "default": "namespace"
+        }
+      ],
+      "default": "namespace"
+    },
+    "interval": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "default": "1m"
+        }
+      ],
+      "default": "1m"
+    },
+    "scrapeTimeout": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "default": "10s"
+        }
+      ],
+      "default": "10s"
+    },
+    "honorLabels": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        }
+      ],
+      "default": null
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "annotations": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "relabelings": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ServiceMonitorRelabelings.json",
+      "description": "These relabeling steps are applied before the scrape occurs and only have access to labels added by Prometheus’ Service Discovery. They allow us to filter the targets returned by our SD mechanism, as well as manipulate the labels it sets. More info: https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/"
+    },
+    "metricRelabelings": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ServiceMonitorRelabelings.json",
+      "description": "Once the targets have been defined, the metric_relabel_configs steps are applied after the scrape and allow us to select which series we would like to ingest into Prometheus’ storage. More info: https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/"
+    },
+    "dropMetricsLabels": {
+      "type": "array",
+      "description": "configure name of the labels that must be removed from the metrics",
+      "uniqueItems": true,
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "endpoint",
+              "service",
+              "pod",
+              "container",
+              "namespace",
+              "instance"
+            ]
+          },
+          {
+            "type": "string",
+            "pattern": "[\\w_\\-]+"
+          }
+        ]
+      }
+    }
+  }
+}
