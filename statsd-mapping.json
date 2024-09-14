@@ -97,9 +97,16 @@
           "properties": {
             "component": {
               "type": "string",
-              "enum": [
-                "driver",
-                "executor"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "driver",
+                    "executor"
+                  ]
+                }
               ]
             },
             "id": {
