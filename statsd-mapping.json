@@ -43,7 +43,7 @@
           "$ref": "#/definitions/GlobDisableOrdering"
         },
         "ttl": {
-          "$ref": "#/definitions/TTL"
+          "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Duration.json"
         }
       }
     },
@@ -230,9 +230,6 @@
     },
     "GlobDisableOrdering": {
       "type": "boolean"
-    },
-    "TTL": {
-      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Duration.json"
     }
   }
 }

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/units/Duration.json",
   "type": "string",
-  "pattern": "^[1-9]\\d*[msh]$",
+  "pattern": "^[1-9]\\d*[smhd]$",
   "examples": [
     "30s",
     "30m"

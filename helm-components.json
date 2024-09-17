@@ -4,7 +4,7 @@
   "title": "Json Schema for Helm Components",
   "definitions": {
     "TopologySpreadConstraints": {
-      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/helm-components.json"
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/TopologySpreadConstraints.json"
     },
     "Affinity": {
       "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/Affinity.json"

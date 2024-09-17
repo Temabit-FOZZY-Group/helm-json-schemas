@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/ingress/ClassName.json",
+  "description": "K8s Ingress Class Names",
+  "type": "string",
+  "default": "nginx",
+  "examples": [
+    "nginx",
+    "traefik",
+    "haproxy"
+  ],
+  "anyOf": [
+    {
+      "type": "string"
+    },
+    {
+      "enum": [
+        "nginx",
+        "traefik",
+        "haproxy"
+      ]
+    }
+  ]
+}
