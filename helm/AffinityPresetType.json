@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/AffinityPresetType.json",
+  "type": "string",
+  "enum": [
+    "soft",
+    "hard"
+  ],
+  "default": "soft"
+}

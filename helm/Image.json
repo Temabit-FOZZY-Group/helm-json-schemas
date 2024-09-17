@@ -14,7 +14,7 @@
       "type": "string"
     },
     "tag": {
-      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Imagetag.json"
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ImageTag.json"
     },
     "pullPolicy": {
       "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/ImagePullPolicy.json"

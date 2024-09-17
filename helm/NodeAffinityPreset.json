@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/NodeAffinityPreset.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "key",
+    "values"
+  ],
+  "properties": {
+    "type": {
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/AffinityPresetType.json"
+    },
+    "key": {
+      "type": "string"
+    },
+    "values": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/NodeGroup.json"
+        }
+      ]
+    }
+  }
+}
