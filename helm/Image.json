@@ -8,46 +8,16 @@
   ],
   "properties": {
     "registry": {
-      "type": "string",
-      "default": "docker.io",
-      "examples": [
-        "docker.io"
-      ],
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "enum": [
-            "docker.io",
-            "public.ecr.aws",
-            "registry.fozzy.lan",
-            "ghcr.io",
-            "gcr.io",
-            "registry.k8s.io",
-            "quay.io"
-          ]
-        }
-      ]
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ImageRegistry.json"
     },
     "repository": {
       "type": "string"
     },
     "tag": {
-      "type": "string",
-      "examples": [
-        "latest"
-      ]
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/Imagetag.json"
     },
     "pullPolicy": {
-      "type": "string",
-      "default": "IfNotPresent",
-      "description": "https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy",
-      "enum": [
-        "Always",
-        "IfNotPresent",
-        "Never"
-      ]
+      "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/ImagePullPolicy.json"
     },
     "pullSecrets": {
       "type": "array",

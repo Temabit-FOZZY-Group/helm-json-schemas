@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ImageTag.json",
+  "type": "string",
+  "examples": [
+    "latest"
+  ],
+  "anyOf": [
+    {
+      "type": "string"
+    },
+    {
+      "enum": [
+        "latest"
+      ]
+    }
+  ]
+}

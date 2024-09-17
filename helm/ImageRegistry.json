@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/ImageRegistry.json",
+  "type": "string",
+  "default": "docker.io",
+  "examples": [
+    "docker.io"
+  ],
+  "anyOf": [
+    {
+      "type": "string"
+    },
+    {
+      "enum": [
+        "docker.io",
+        "public.ecr.aws",
+        "registry.fozzy.lan",
+        "ghcr.io",
+        "gcr.io",
+        "registry.k8s.io",
+        "quay.io"
+      ]
+    }
+  ]
+}
