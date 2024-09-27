@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft-07/schema#",
   "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/helm/PodDisruptionBudget.json",
   "type": "object",
   "additionalProperties": false,
