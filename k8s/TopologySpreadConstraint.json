@@ -1,5 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
   "$id": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/TopologySpreadConstraint.json",
-  "$ref": "https://gitlab.wikimedia.org/repos/sre/kubernetes-json-schema/-/raw/72481e690d5893cc568ff9b13009467f7040dd94/v1.27.2/topologyspreadconstraint.json"
+  "$ref": "https://gitlab.wikimedia.org/repos/sre/kubernetes-json-schema/-/raw/f4bd7843fe564a64af66eb463ee698a8fced7066/v1.31.2/topologyspreadconstraint.json"
 }
