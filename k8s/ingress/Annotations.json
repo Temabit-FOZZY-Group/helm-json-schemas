@@ -8,6 +8,19 @@
       "$ref": "https://temabit-fozzy-group.github.io/helm-json-schemas/k8s/Annotations.json"
     }
   ],
+  "definitions": {
+    "PositiveNumber": {
+      "type": "string",
+      "pattern": "^([1-9]\\d*)$"
+    },
+    "Boolean": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ]
+    }
+  },
   "properties": {
     "nginx.ingress.kubernetes.io/app-root": {
       "type": "string"
@@ -53,8 +66,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/auth-tls-verify-depth": {
-      "type": "string",
-      "pattern": "^[1-9]\\d*$"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/auth-tls-verify-client": {
       "type": "string"
@@ -63,11 +75,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/auth-tls-match-cn": {
       "type": "string"
@@ -82,16 +90,13 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/auth-keepalive": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/auth-keepalive-requests": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/auth-keepalive-timeout": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/auth-proxy-set-headers": {
       "type": "string"
@@ -100,11 +105,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/enable-global-auth": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/backend-protocol": {
       "type": "string",
@@ -119,11 +120,7 @@
       ]
     },
     "nginx.ingress.kubernetes.io/canary": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/canary-by-header": {
       "type": "string"
@@ -138,12 +135,10 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/canary-weight": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/canary-weight-total": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/client-body-buffer-size": {
       "type": "string"
@@ -159,11 +154,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/enable-cors": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/cors-allow-origin": {
       "type": "string",
@@ -179,52 +170,32 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/cors-allow-credentials": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/cors-max-age": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/force-ssl-redirect": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/from-to-www-redirect": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/http2-push-preload": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/limit-connections": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/limit-rps": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/global-rate-limit": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/global-rate-limit-window": {
       "type": "string",
-      "pattern": "^\\d+[mhs]?$"
+      "pattern": "^([1-9]\\d*[mhs]?)$"
     },
     "nginx.ingress.kubernetes.io/global-rate-limit-key": {
       "type": "string"
@@ -236,18 +207,13 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/permanent-redirect-code": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/temporal-redirect": {
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/preserve-trailing-slash": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/proxy-body-size": {
       "type": "string"
@@ -259,27 +225,22 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/proxy-connect-timeout": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-send-timeout": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-read-timeout": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-next-upstream": {
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/proxy-next-upstream-timeout": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-next-upstream-tries": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-request-buffering": {
       "type": "string"
@@ -310,21 +271,21 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/proxy-ssl-verify": {
-      "type": "string"
+      "type": "string",
+      "default": "off",
+      "enum": [
+        "on",
+        "off"
+      ]
     },
     "nginx.ingress.kubernetes.io/proxy-ssl-verify-depth": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-ssl-server-name": {
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/enable-rewrite-log": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/rewrite-target": {
       "type": "string"
@@ -339,11 +300,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/service-upstream": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/session-cookie-name": {
       "type": "string"
@@ -355,35 +312,19 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/session-cookie-change-on-failure": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/session-cookie-samesite": {
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/session-cookie-conditional-samesite-none": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/ssl-redirect": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/ssl-passthrough": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/stream-snippet": {
       "type": "string"
@@ -408,8 +349,7 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/proxy-buffers-number": {
-      "type": "string",
-      "pattern": "[1-9]\\d+"
+      "$ref": "#/definitions/PositiveNumber"
     },
     "nginx.ingress.kubernetes.io/proxy-buffer-size": {
       "type": "string"
@@ -421,42 +361,22 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/ssl-prefer-server-ciphers": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/connection-proxy-header": {
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/enable-access-log": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/enable-opentracing": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/opentracing-trust-incoming-span": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/enable-influxdb": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/influxdb-measurement": {
       "type": "string"
@@ -471,25 +391,13 @@
       "type": "string"
     },
     "nginx.ingress.kubernetes.io/use-regex": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/enable-modsecurity": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/enable-owasp-core-rules": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ]
+      "$ref": "#/definitions/Boolean"
     },
     "nginx.ingress.kubernetes.io/modsecurity-transaction-id": {
       "type": "string"
